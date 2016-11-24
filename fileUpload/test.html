@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <form enctype="multipart/form-data" method="post" id = "upload">
+        <input id="file" type="file" name="upload" multiple="multiple"> 
+    </form>
+    <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="jquery-form.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#file").on("change", function(e){
+                console.log($("#file").val());
+                $("#upload").ajaxSubmit(function(data, status, xhr){
+                    console.log(data);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+
