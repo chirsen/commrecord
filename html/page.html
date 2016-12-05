@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+    .pages {
+        margin: 0px auto;
+        position: relative;
+        bottom: 0px;
+    }
+    
+    .pages > a {
+        display: inline-block;
+        border-left: solid 1px #eee;
+        border-top: solid 1px #eee;
+        border-bottom: solid 1px #eee;
+        padding: 5px;
+        font-size: 16px;
+        background-color: white;
+        text-decoration: none;
+        color: #aaa;
+        min-width: 20px;
+        text-align: center;
+    }
+    
+    .pages > .choose {
+        background-color: #999;
+        color: white;
+    }
+    
+    #pre-page {}
+    
+    #next-page {
+        border-right: solid 1px #eee;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="pages" id="pages">
+        <a href="#" id="pre-page">上一页</a>
+        <a href="#" class="page-item"></a>
+        <a href="#" id="preMore">...</a>
+        <a href="#" class="page-item"></a>
+        <a href="#" class="page-item"></a>
+        <a href="#" class="page-item"></a>
+        <a href="#" class="page-item"></a>
+        <a href="#" class="page-item"></a>
+        <a href="#" class="page-item"></a>
+        <a href="#" class="page-item"></a>
+        <a href="#" class="page-item"></a>
+        <a href="#" id="nextMore">...</a>
+        <a href="#" class="page-item"></a>
+        <a href="#" id="next-page">下一页</a>
+    </div>
+    <script>
+    //=====使用方法======
+    var current = 1;
+    var total = 100;
+    var pages = document.getElementById("pages");
+    var pre = document.getElementById("pre-page");
+    var next = document.getElementById("next-page");
+
+    pageChange(current, total);
+    pre.addEventListener("click", function(e) {
+        if (current > 1)
+            pageChange(--current, total);
+    }, false);
+
+    next.addEventListener("click", function(e) {
+        if (current < total)
+            pageChange(++current, total);
+    }, false);
+
+    pages.addEventListener("click", function(e){
+        if(e.target.className === "page-item"){
+            var pageNumber = e.target.innerHTML;
+            pageChange(pageNumber, total);
+            current = pageNumber;
+            e.preventDefault();
+            return false;
+        }
+    }, false);
+    //=====使用方法完======
+    
+    //分页（如果使用异步，href可不写）
+    function pageChange(current, total) {
+        var preMore = document.getElementById("preMore");
+        var nextMore = document.getElementById("nextMore");
+        var pageItems = document.getElementsByClassName("page-item");
+
+        var i = 0,
+            len = pageItems.length;
+        //初始化
+        for(i = 0; i < len; i++){
+            pageItems[i].className = "page-item";
+        }
+        preMore.style.display = "inline-block";
+        nextMore.style.display = "inline-block";
+        //总页数小于10
+        if (total <= 10) {
+            preMore.style.display = "none";
+            nextMore.style.display = "none";
+
+            for (i = 0; i < len; i++) {
+                pageItems[i].innerHTML = i + 1;
+                pageItems[i].setAttribute("href", "./pages?page=" + (i + 1));
+                if (i > (total - 1)) {
+                    pageItems[i].style.display = "none";
+                }
+            }
+
+            pageItems[current - 1].className = "page-item choose";
+        } else {//总页数大于10
+            if (current <= 5) {//当前页码小于5
+                preMore.style.display = "none";
+                for (i = 0; i < len - 1; i++) {
+                    pageItems[i].innerHTML = i + 1;
+                    pageItems[i].setAttribute("href", "./pages?page=" + (i + 1));
+                }
+                pageItems[i].innerHTML = total;
+                pageItems[i].setAttribute("href", "./pages?page=" + total);
+
+                pageItems[current - 1].className = "page-item choose";
+            } else if (current > 5 && total - current <= 5) {//当前页码大于5,并且靠近结束位置
+                nextMore.style.display = "none";
+                pageItems[0].innerHTML = 1;
+                pageItems[0].setAttribute("href", "./pages?page=" + 1);
+
+                for (i = 1; i < len - 1; i++) {
+                    pageItems[i].innerHTML = i + (total - 9);
+                    pageItems[i].setAttribute("href", "./pages?page=" + (i + total - 9));
+                }
+
+                pageItems[i].innerHTML = total;
+                pageItems[i].setAttribute("href", "./pages?page=" + total);
+
+                pageItems[current - (total - 9)].className = "page-item choose";
+            } else {//当前页码大于5,并且靠近中间位置
+                pageItems[0].innerHTML = 1;
+                pageItems[0].setAttribute("href", "./pages?page=" + 1);
+
+                for (i = 1; i < len - 1; i++) {
+                    pageItems[i].innerHTML = i + (current - 4);
+                    pageItems[i].setAttribute("href", "./pages?page=" + (i + current - 4));
+                }
+
+                pageItems[i].innerHTML = total;
+                pageItems[i].setAttribute("href", "./pages?page=" + total);
+
+                pageItems[4].className = "page-item choose";
+            }
+        }
+    }
+    </script>
+</body>
+
+</html>
