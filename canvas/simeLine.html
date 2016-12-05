@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+		body{
+			margin: 0px;
+		}
+	</style>
+</head>
+<body>	
+	<canvas id="cvs" style="width: 400px; height: 400px;"></canvas>	
+	<script>
+		var cvs = document.getElementById("cvs");
+		var ctx = cvs.getContext('2d');
+		ctx.lineWidth = 1;
+		var dpr = 1;
+		cvs.width = parseInt(cvs.style.width)*dpr;
+		cvs.height = parseInt(cvs.style.height)*dpr;
+		ctx.strokeRect(35.5, 13, 200, 200);
+		ctx.strokeRect(11, 220, 100, 100);
+		//手机屏幕，dpr为2，lineWidth为2，x, y为整数
+		//dpr为1的屏幕，lineWidth为1,x, y加0.5
+	</script>
+</body>
+</html>
