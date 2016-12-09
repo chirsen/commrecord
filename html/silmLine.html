@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!--精细的线，canvas和移动端的1px边框-->
+
+<head>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .one {
+            height: 10px;
+            width: 100%;
+            border: solid 1px black;
+        }
+        
+        .two {
+            margin-top: 10px;
+            position: relative;
+            height: 10px;
+            width: 100%;
+        }
+        
+        .two:before {
+            content: "";
+            position: absolute;
+            height: 200%;
+            width: 200%;
+            border: solid 1px black;
+            -moz-transform: scale(.5);
+            -webkit-transform: scale(.5);
+            -o-transform: scale(.5);
+            -ms-transform: scale(.5);
+            transform: scale(.5);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="one"></div>
+    <div class="two"></div>
+</body>
+
+</html>
